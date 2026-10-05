@@ -1,0 +1,32 @@
+services:
+  #  Symulator YAMCS
+  yamcs:
+    build: ./simulators
+    container_name: drakon-yamcs-mock
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+
+  # backend DRAKON
+  backend:
+    build: ./backend
+    container_name: drakon-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - YAMCS_URL=http://yamcs:8090
+    depends_on:
+      - yamcs
+    restart: unless-stopped
+
+  # 3. Front
+  frontend:
+    image: nginx:alpine
+    container_name: drakon-frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    restart: unless-stopped
