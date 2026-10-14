@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DRAKON</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">DRAKON</div>
+    <nav>
+      <span id="step-start" class="step active">Start</span>
+      <span id="step-rules" class="step">1. Rules</span>
+      <span id="step-verify" class="step">2. Verification</span>
+      <span id="step-report" class="step">3. Evidence report</span>
+    </nav>
+    <div class="hint">SPACE next · 1/2 patch · R reset</div>
+  </header> 
+
+  <main>
+    <section id="view-start" class="view active">
+  <h1>Analyze requirements document</h1>
+  <p class="sub">Source: <b>EPS-SRD v1.0</b> · DEMOSAT-1 (fictional) </p>
+  <button class="primary" id="btn-start" onclick="runAnalysis()">Start analysis</button>
+  <div class="bar"><div id="bar-fill" class="bar-fill"></div></div>
+  <div id="bar-label" class="progress"></div>
+  <ul id="scan-log"></ul>
+</section>
+
+    <section id="view-rules" class="view">
+      <h1>Safety rules inferred from documentation</h1>
+      <p class="sub">Source: <b>EPS-SRD v1.0</b> · <span id="rules-counter"></span></p>
+      <table>
+        <thead><tr><th>ID</th><th>Rule</th><th>Source</th><th>Confidence</th><th>Status</th></tr></thead>
+        <tbody id="rules-body"></tbody>
+      </table>
+      <button class="primary" onclick="show('verify')">Continue to verification →</button>
+    </section>
+
+    <section id="view-verify" class="view">
+      <h1>Verify flight software update</h1>
+      <div class="patch-select">
+        <button id="btn-A" class="patch selected" onclick="selectPatch('A')">Patch A</button>
+        <button id="btn-B" class="patch" onclick="selectPatch('B')">Patch B</button>
+      </div>
+      <div class="cols">
+        <div>
+          <h2 id="patch-name"></h2>
+          <pre id="patch-diff"></pre>
+          <button class="primary" id="btn-verify" onclick="runVerify()">Verify patch</button>
+          <div id="progress" class="progress"></div>
+          <ul id="test-list"></ul>
+        </div>
+        <div>
+          <canvas id="chart" width="900" height="420"></canvas>
+          <div id="verdict" class="verdict"></div>
+          <button class="primary" id="btn-report" style="display:none" onclick="show('report')">Open evidence report →</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-report" class="view">
+      <div id="report"></div>
+      <button class="primary no-print" onclick="window.print()">Print / Save as PDF</button>
+    </section>
+  </main>
+
+  <script src="js/data.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
