@@ -10,55 +10,91 @@
   <header>
     <div class="logo">DRAKON</div>
     <nav>
-      <span id="step-start" class="step active">Start</span>
-      <span id="step-rules" class="step">1. Rules</span>
-      <span id="step-verify" class="step">2. Verification</span>
-      <span id="step-report" class="step">3. Evidence report</span>
-    </nav>
+  <span id="step-start" class="step active" onclick="show('start')">Start</span>
+  <span id="step-rules" class="step" onclick="show('rules')">1. Rules</span>
+  <span id="step-verify" class="step" onclick="show('verify')">2. Analysis</span>
+  <span id="step-signoff" class="step" onclick="show('signoff')">3. Sign-off</span>
+  <span id="step-report" class="step" onclick="show('report')">4. Evidence report</span>
+</nav>
     <div class="hint">SPACE next · 1/2 patch · R reset</div>
   </header> 
 
   <main>
-    <section id="view-start" class="view active">
-  <h1>Analyze requirements document</h1>
-  <p class="sub">Source: <b>EPS-SRD v1.0</b> · DEMOSAT-1 (fictional) </p>
-  <button class="primary" id="btn-start" onclick="runAnalysis()">Start analysis</button>
+   <section id="view-start" class="view active">
+  <h1>Analyze requirements and code</h1>
+  <p class="sub">Sources: <b>documentation, code, change history</b> · DEMOSAT-1 (fictional) · replay of cached LLM extraction</p>
+  <button class="primary" id="btn-start" onclick="startOrContinue()">Start analysis</button>
   <div class="bar"><div id="bar-fill" class="bar-fill"></div></div>
   <div id="bar-label" class="progress"></div>
   <ul id="scan-log"></ul>
+  <div id="gaps" class="gaps" style="display:none"></div>
 </section>
 
     <section id="view-rules" class="view">
       <h1>Safety rules inferred from documentation</h1>
       <p class="sub">Source: <b>EPS-SRD v1.0</b> · <span id="rules-counter"></span></p>
       <table>
-        <thead><tr><th>ID</th><th>Rule</th><th>Source</th><th>Confidence</th><th>Status</th></tr></thead>
+        <thead><tr><th>ID</th><th>Rule</th><th>Source</th><th>Origin</th><th>Risk</th><th>Rule status</th><th>Conf.</th><th>Decision</th></tr></thead>
         <tbody id="rules-body"></tbody>
       </table>
       <button class="primary" onclick="show('verify')">Continue to verification →</button>
     </section>
 
-    <section id="view-verify" class="view">
-      <h1>Verify flight software update</h1>
-      <div class="patch-select">
-        <button id="btn-A" class="patch selected" onclick="selectPatch('A')">Patch A</button>
-        <button id="btn-B" class="patch" onclick="selectPatch('B')">Patch B</button>
-      </div>
-      <div class="cols">
-        <div>
-          <h2 id="patch-name"></h2>
-          <pre id="patch-diff"></pre>
-          <button class="primary" id="btn-verify" onclick="runVerify()">Verify patch</button>
-          <div id="progress" class="progress"></div>
-          <ul id="test-list"></ul>
-        </div>
-        <div>
-          <canvas id="chart" width="900" height="420"></canvas>
-          <div id="verdict" class="verdict"></div>
-          <button class="primary" id="btn-report" style="display:none" onclick="show('report')">Open evidence report →</button>
-        </div>
-      </div>
-    </section>
+   <section id="view-verify" class="view">
+  <h1>Analyze software update</h1>
+  <div class="patch-select">
+    <button id="btn-A" class="patch selected" onclick="selectPatch('A')">Patch A</button>
+    <button id="btn-B" class="patch" onclick="selectPatch('B')">Patch B</button>
+    <span class="env">Environment: <b>SIL (simulator)</b></span>
+  </div>
+  <div class="cols">
+    <div>
+      <h2 id="patch-name"></h2>
+      <pre id="patch-diff"></pre>
+      <button class="primary" id="btn-verify" onclick="runVerify()">Analyze patch</button>
+      <div id="progress" class="progress"></div>
+      <h2 id="static-title" style="display:none">Static checks</h2>
+      <ul id="static-list"></ul>
+      <h2 id="test-title" style="display:none">SIL simulation tests</h2>
+      <ul id="test-list"></ul>
+    </div>
+    <div>
+      <canvas id="chart" width="900" height="420"></canvas>
+      <div id="verdict" class="verdict"></div>
+      <button class="primary" id="btn-report" style="display:none" onclick="show('signoff')">Continue to sign-off →</button>
+    </div>
+  </div>
+</section>
+
+<section id="view-signoff" class="view">
+  <h1>Engineer sign-off</h1>
+  <p class="sub">The system only recommends. The decision is made and recorded by the responsible engineer.</p>
+  <div id="signoff-summary" class="summary"></div>
+
+  <div id="signoff-form">
+    <label class="lbl" for="eng-name">Responsible engineer</label>
+    <input id="eng-name" type="text" placeholder="Full name" autocomplete="off">
+
+    <div class="lbl">Decision</div>
+    <div class="dec-row">
+      <button id="dec-APPROVE" class="dec" onclick="pickDecision('APPROVE')">Approve upload</button>
+      <button id="dec-BLOCK" class="dec" onclick="pickDecision('BLOCK')">Block</button>
+      <button id="dec-REVIEW" class="dec" onclick="pickDecision('REVIEW')">Send to review</button>
+    </div>
+    <div id="mismatch" class="mismatch" style="display:none">
+      Your decision differs from the system recommendation. Please state the reason.
+    </div>
+
+    <label class="lbl" for="eng-reason">Justification</label>
+    <textarea id="eng-reason" rows="3" placeholder="Reason for the decision"></textarea>
+
+    <button class="primary" onclick="signDecision()">Sign and record decision</button>
+    <div id="signoff-error" class="err"></div>
+  </div>
+
+  <div id="signoff-done" class="signed" style="display:none"></div>
+  <button class="primary" id="btn-open-report" style="display:none" onclick="show('report')">Open evidence report →</button>
+</section>
 
     <section id="view-report" class="view">
       <div id="report"></div>

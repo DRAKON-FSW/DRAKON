@@ -2,6 +2,8 @@
 
 Project: DEMOSAT-1 (fictional 3U cubesat) · Version 1.0
 
+\*Demo data: this document, the code and the satellite are fictional.\*
+
 
 
 \## 4. Power management requirements
@@ -39,4 +41,10 @@ Project: DEMOSAT-1 (fictional 3U cubesat) · Version 1.0
 4.4.2 \*\*REQ-EPS-025\*\*: The EPS should react promptly to a low bus voltage condition.
 
 &#x20;  (Note: "promptly" is not quantified.)
+
+
+
+\### 4.5 Telemetry
+
+4.5.1 \*\*REQ-EPS-033\*\*: Battery voltage telemetry shall be sampled every 10 s.
 
