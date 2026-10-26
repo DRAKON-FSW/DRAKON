@@ -1,9 +1,0 @@
-main.py - Serce programu, FastAPI, przechywytuje na bieżąco każdą jedną telekomende pochodzącą od operatorów, zanim zostanie zaszyfrowana i wysłana na satelitę. Zbiera dane z telemetry_mock.py. Ocenia więc komendę w aktualnej sytuacji. Zatwierdzone komendy przesyła dalej na łącze satelity, reszta to alerty. Obsługuje mechanizm awaryjnego zatwierdzenia alertu, wystawi interfejsy REST API
-
-rule_engine.py - Weryfikuje Flight Rules, deterministyczny silnik reguł, który analizuje komendę z zasadami zdefiniowanymi przez zespół misji. Weryfikacja czy nie dochodzi do złamania jakiejś reguły np. aktulizacji oprogramowania podczas manewru orbitalnego czy coś takiego. Reguły te klient mógłby wprowadzić samodzielnie
-
-ml_mock.py - Wykrywa komendy, które są autentyczne, ale anomalne - błąd ludzki, atak z wewnątrz lub przejęcie całkowite ground segmentu. Docelowo miałby to być jakiś lekki ML, który na bieżąco porównuje sekwencję poleceń z typowym wzorcem operatorów i wylicza prawdopodobieństwo anomalii
-
-db.sqlite - coś w stylu audytu, zapisuje do logu każdą decyzję systemu DRAKON (wszystko totalnie wraz z uzasadnieniem). Dane te trafiają do dashboardu, żeby alert był widoczny na ekranie w momencie wykrycia anomalii
-
-Sugerowana technologia: Połączyć backend z frontem przez FastAPI

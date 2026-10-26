@@ -1,3 +1,0 @@
-mission_control.py - UPLINK - symulator operatorów, system nadawania komend zanim trafią do SDLS. Automatyczna pętla co jakiś czas wysyła komendy do satelity (np. co 2 sekundy). Po wciśnięciu przycisku (ręcznie do demonstracji) wysylana jest krytyczna komenda, anomalna sekwencja coś takiego. Alerty wyświetlane w interfejsie graficznym frontendu index.html 
-
-telemtry_mock.py - DOWNLINK - symulator stanu satelity, na bieżąco wysyła informacje o telemtrii, komendy typu "satelita wszedł w SAFE MODE" czy coś takiego, dane o tym co faktycznie dzieje się na orbicie;
