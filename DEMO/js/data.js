@@ -54,5 +54,10 @@ const PATCHES = {
        params: { safeThreshold: 6.0 },
        coverage: 80,
        staticChecks: [{ constant: "THRESH_SAFE", from: "7.0", to: "6.0", rule: "REQ-EPS-014" }],
-       diff: "- THRESH_SAFE = 7.0f;\n+ THRESH_SAFE = 6.0f;   // longer operation in NOMINAL mode" }
+       diff: "- THRESH_SAFE = 7.0f;\n+ THRESH_SAFE = 6.0f;   // longer operation in NOMINAL mode" },
+  C: { name: "Patch 2.3.3: thermal fix for SAFE_MODE",
+       params: { safeThreshold: 7.0, safeModeFactor: 0.8 },
+       coverage: 0,        // 0% of changed elements are linked to a rule (the only changed constant has no rule)
+       staticChecks: [{ constant: "SAFE_MODE_LOAD_FACTOR", from: "0.4", to: "0.8", rule: null }],   // changed, but not linked to any rule
+       diff: "- SAFE_MODE_LOAD_FACTOR = 0.4f;\n+ SAFE_MODE_LOAD_FACTOR = 0.8f;   // keep battery heater on in SAFE_MODE (cold-case fix)" }
 };

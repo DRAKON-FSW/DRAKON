@@ -1,0 +1,7 @@
+- Dashboard na żywo, log audytowy
+- Interfejs wyświetla aktualne zebrane dane, telemetrie, faze misji, tryb pracy satelity, żeby dac pelen obraz sytuacji co się dzieje
+- Zarządzanie UI oraz API - panel do wprowadzania i modyfikowania reguł sprawdzanych potem przez silnik deterministyczny
+- Awaryjne zatwierdzenie - dedykowany przycisk lub panel autoryzacyjny, który pozwala uprawnionej osobie na ręczne zatwierdzenie operacyjne systemu
+
+
+Sugerowana technologia - czysty HTML/JS + Tailwind CSS

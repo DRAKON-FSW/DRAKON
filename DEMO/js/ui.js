@@ -107,7 +107,7 @@ function renderRules() {
     const rowCls = (needs && !d ? "review " : "") + (r.risk === "critical" ? "critical-row" : "");
     return `<tr class="${rowCls}">
       <td><b>${r.id}</b></td>
-      <td>${r.risk === "critical" ? "🔒 " : ""}${r.text}</td>
+      <td>${r.risk === "critical" ? " " : ""}${r.text}</td>
       <td class="src">${r.source}</td>
       <td><span class="tag origin">${r.origin}</span></td>
       <td><span class="tag ${r.risk}">${r.risk}</span></td>
@@ -179,7 +179,7 @@ function selectPatch(p) {
   if (state.running) return;
   state.patch = p;
   state.pendingDecision = null;
-  ["A", "B"].forEach(x => $("btn-" + x).classList.toggle("selected", x === p));
+  ["A", "B", "C"].forEach(x => $("btn-" + x).classList.toggle("selected", x === p));
   $("patch-name").textContent = PATCHES[p].name;
   $("patch-diff").textContent = PATCHES[p].diff;
   clearVerifyView();
@@ -386,6 +386,7 @@ document.addEventListener("keydown", e => {
     else if (state.view === "signoff" && cur().signoff) show("report");
   } else if (e.key === "1" && state.view === "verify") selectPatch("A");
   else if (e.key === "2" && state.view === "verify") selectPatch("B");
+  else if (e.key === "3" && state.view === "verify") selectPatch("C");
   else if (e.key.toLowerCase() === "r") resetDemo();
 });
 document.addEventListener("keyup", e => {

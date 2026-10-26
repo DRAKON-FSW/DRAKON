@@ -13,8 +13,10 @@ const SCOPE = {
 function staticCheck(patch) {
   return patch.staticChecks.map(c => {
     const rule = RULES.find(r => r.id === c.rule);
-    return { ...c, critical: rule && rule.risk === "critical",
-      message: `Changed constant ${c.constant} (${c.from} → ${c.to}) is linked to ${rule.risk} rule ${c.rule}` };
+    const message = rule
+      ? `Changed constant ${c.constant} (${c.from} → ${c.to}) is linked to ${rule.risk} rule ${c.rule}`
+      : `Changed constant ${c.constant} (${c.from} → ${c.to}) is not linked to any rule: static analysis cannot assess its impact`;
+    return { ...c, critical: !!rule && rule.risk === "critical", message };
   });
 }
 
